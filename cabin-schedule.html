@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabin Meals 2026 🌲</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2d4a2f;
+    --pine: #3d6b40;
+    --amber: #c8893a;
+    --cream: #f5eedf;
+    --parchment: #ede0c8;
+    --smoke: #e8dece;
+    --charcoal: #2a2218;
+    --ash: #6b5f52;
+    --mcdonald: #c0392b;
+    --petzke: #2980b9;
+    --ryan-carlson: #16a085;
+    --jon-carlson: #8e44ad;
+    --gardner: #d35400;
+    --bower: #27ae60;
+    --kennedy: #b7860b;
+    --barbers: #1a6b8a;
+    --other: #7f8c8d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #1e2e1f;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(61,107,64,0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(122,92,58,0.2) 0%, transparent 50%);
+    min-height: 100vh;
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--charcoal);
+  }
+
+  /* ══ PRINT STYLES ══ */
+  @media screen { .print-view { display: none; } }
+  @media print {
+    body { background: white !important; }
+    .screen-only { display: none !important; }
+    .print-view { display: block !important; }
+    .print-header { text-align: center; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 3px solid #2d4a2f; }
+    .print-header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #2d4a2f; }
+    .print-header p { font-size: 0.82rem; color: #6b5f52; margin-top: 3px; }
+    .print-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 14px; padding: 8px 12px; background: #f5eedf; border-radius: 5px; border: 1px solid #ede0c8; }
+    .print-legend-title { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px; color: #6b5f52; font-weight: 700; width: 100%; }
+    .print-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: #2a2218; }
+    .print-legend-swatch { width: 10px; height: 10px; border-radius: 2px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .print-week-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: #2d4a2f; margin: 18px 0 6px; padding-bottom: 3px; border-bottom: 2px solid #3d6b40; }
+    .print-grid { width: 100%; border-collapse: collapse; font-size: 0.68rem; margin-bottom: 4px; page-break-inside: avoid; }
+    .print-grid th { background: #2d4a2f !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color: white; padding: 5px 6px; text-align: left; font-weight: 600; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.4px; }
+    .print-grid th.meal-col { background: #3d6b40 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; width: 14%; }
+    .print-grid td { border: 1px solid #e8dece; padding: 4px 6px; vertical-align: top; }
+    .print-grid tr:nth-child(even) td { background: #faf6ef; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .print-day-label { font-weight: 700; color: #2d4a2f; font-size: 0.72rem; }
+    .print-day-sub { display: block; font-weight: 400; font-size: 0.62rem; color: #6b5f52; }
+    .print-claim { display: block; border-radius: 3px; padding: 2px 5px; margin: 1px 0; font-size: 0.64rem; color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; line-height: 1.3; }
+    .print-dish { font-style: italic; opacity: 0.88; }
+    .print-open-item { display: block; border: 1px dashed #c8893a; border-radius: 3px; padding: 2px 5px; margin: 1px 0; font-size: 0.62rem; color: #6b5f52; line-height: 1.3; }
+    .print-empty { color: #c8bfb0; font-style: italic; font-size: 0.62rem; }
+    @page { size: landscape; margin: 0.5in 0.45in; }
+  }
+
+  /* ══ HEADER ══ */
+  header { text-align: center; padding: 48px 24px 28px; }
+  .cabin-icon { font-size: 50px; display: block; margin-bottom: 10px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem,5vw,3.6rem); font-weight: 900; color: var(--cream); line-height: 1.1; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
+  header h1 span { color: var(--amber); }
+  header p { color: rgba(245,238,223,0.6); font-size: 1rem; margin-top: 8px; font-weight: 300; letter-spacing: 0.5px; }
+  .tree-divider { text-align: center; font-size: 1.4rem; margin: 4px 0 18px; opacity: 0.45; letter-spacing: 8px; }
+
+  .main-wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ══ STATUS BAR ══ */
+  .status-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; gap: 12px; flex-wrap: wrap;
+  }
+  .sync-indicator {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.82rem; color: rgba(245,238,223,0.5);
+  }
+  .sync-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #7f8c8d; transition: background 0.3s;
+  }
+  .sync-dot.connected { background: #27ae60; box-shadow: 0 0 6px #27ae6088; }
+  .sync-dot.syncing { background: var(--amber); animation: pulse 0.8s infinite; }
+  .sync-dot.error { background: #c0392b; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .print-btn { display: flex; align-items: center; gap: 8px; padding: 10px 22px; background: var(--amber); color: var(--charcoal); border: none; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; box-shadow: 0 3px 14px rgba(200,137,58,0.35); transition: all 0.2s; }
+  .print-btn:hover { background: #d9973e; transform: translateY(-1px); }
+
+  /* ══ FAMILY PANEL ══ */
+  .family-panel { background: var(--cream); border-radius: 16px; padding: 28px 32px; margin-bottom: 28px; box-shadow: 0 8px 40px rgba(0,0,0,0.3); border-top: 4px solid var(--amber); }
+  .family-panel h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--forest); margin-bottom: 16px; font-weight: 700; }
+  .family-selector-row { display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap; }
+  .field-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 200px; }
+  .field-group label { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--ash); font-weight: 600; }
+  select, input[type="text"] { padding: 11px 16px; border: 2px solid var(--smoke); border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 1rem; background: white; color: var(--charcoal); transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0 L6 8 L12 0' fill='%236b5f52'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+  input[type="text"] { background-image: none; padding-right: 16px; }
+  select:focus, input[type="text"]:focus { outline: none; border-color: var(--pine); box-shadow: 0 0 0 3px rgba(61,107,64,0.15); }
+  .confirm-btn { padding: 11px 28px; background: var(--forest); color: var(--cream); border: none; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .confirm-btn:hover { background: var(--pine); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+  .active-family-badge { display: none; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 30px; font-weight: 600; font-size: 0.95rem; color: white; box-shadow: 0 3px 12px rgba(0,0,0,0.2); }
+  .active-family-badge.visible { display: flex; animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+  .badge-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+
+  /* ══ LEGEND ══ */
+  .legend { background: rgba(245,238,223,0.08); border: 1px solid rgba(245,238,223,0.12); border-radius: 12px; padding: 16px 22px; margin-bottom: 26px; display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .legend-title { color: rgba(245,238,223,0.45); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; width: 100%; }
+  .legend-item { display: flex; align-items: center; gap: 7px; color: rgba(245,238,223,0.75); font-size: 0.86rem; }
+  .legend-swatch { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+
+  /* ══ TABS ══ */
+  .week-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(245,238,223,0.38); font-weight: 600; margin: 0 2px 6px; }
+  .date-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+  .date-tab { background: rgba(245,238,223,0.07); border: 1px solid rgba(245,238,223,0.12); border-radius: 9px; padding: 9px 12px; color: rgba(245,238,223,0.58); cursor: pointer; transition: all 0.2s; font-family: 'Source Sans 3', sans-serif; font-size: 0.82rem; text-align: center; line-height: 1.3; position: relative; }
+  .date-tab:hover { background: rgba(245,238,223,0.13); color: var(--cream); }
+  .date-tab.active { background: var(--amber); border-color: var(--amber); color: var(--charcoal); font-weight: 700; box-shadow: 0 3px 12px rgba(200,137,58,0.35); }
+  .tab-dots { display: flex; gap: 2px; justify-content: center; margin-top: 4px; min-height: 6px; }
+  .tab-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* ══ DAY CARD ══ */
+  .day-card { background: var(--cream); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 50px rgba(0,0,0,0.35); animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from{transform:translateY(14px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .day-card-header { background: var(--forest); padding: 18px 28px; }
+  .day-card-header h2 { font-family: 'Playfair Display', serif; font-size: 1.55rem; color: var(--cream); font-weight: 700; }
+  .day-card-header .day-sub { color: rgba(245,238,223,0.5); font-size: 0.82rem; margin-bottom: 2px; }
+  .meal-grid { display: grid; grid-template-columns: repeat(4,1fr); }
+  @media(max-width:700px){.meal-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:420px){.meal-grid{grid-template-columns:1fr;}}
+  .meal-slot { padding: 20px; border-right: 1px solid var(--parchment); border-bottom: 1px solid var(--parchment); transition: background 0.15s; }
+  .meal-slot:nth-child(4n){border-right:none;}
+  .meal-slot:hover{background:rgba(245,238,223,0.45);}
+  .meal-slot-label { display: flex; align-items: center; gap: 7px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ash); font-weight: 700; margin-bottom: 10px; }
+  .meal-claimed { border-radius: 8px; padding: 9px 30px 9px 12px; margin-bottom: 7px; position: relative; animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+  .claimed-family { font-weight: 700; font-size: 0.86rem; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .claimed-dish { font-size: 0.8rem; color: rgba(255,255,255,0.85); margin-top: 2px; font-style: italic; }
+  .remove-btn { position: absolute; top: 5px; right: 7px; background: none; border: none; color: rgba(255,255,255,0.55); cursor: pointer; font-size: 0.85rem; transition: color 0.15s; padding: 2px 4px; }
+  .remove-btn:hover{color:white;}
+  .add-claim-btn { display: flex; align-items: center; gap: 7px; background: none; border: 2px dashed var(--smoke); border-radius: 8px; padding: 8px 12px; color: var(--ash); font-size: 0.85rem; cursor: pointer; width: 100%; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; }
+  .add-claim-btn:hover{border-color:var(--pine);color:var(--pine);background:rgba(61,107,64,0.05);}
+  .scroll-hint{text-align:center;color:rgba(245,238,223,0.28);font-size:0.78rem;padding:12px 0 0;letter-spacing:0.5px;}
+
+  /* ══ OPEN ITEMS (volunteer claiming) ══ */
+  .open-item-card {
+    border: 2px dashed var(--amber);
+    border-radius: 8px;
+    padding: 7px 10px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: rgba(200,137,58,0.05);
+    animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .open-item-card.claimed {
+    border-style: solid;
+    background: rgba(200,137,58,0.08);
+  }
+  .open-item-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .open-item-name { font-weight: 600; font-size: 0.84rem; color: var(--charcoal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .open-item-needs { font-size: 0.74rem; color: var(--ash); }
+  .open-item-claimer { font-size: 0.74rem; font-weight: 600; }
+  .volunteer-btn {
+    flex-shrink: 0;
+    background: var(--amber); border: none; border-radius: 6px;
+    padding: 5px 10px; font-size: 0.78rem; font-weight: 700;
+    color: var(--charcoal); cursor: pointer; white-space: nowrap;
+    font-family: 'Source Sans 3', sans-serif; transition: background 0.15s;
+  }
+  .volunteer-btn:hover { background: #d9973e; }
+  .unclaim-open-btn {
+    flex-shrink: 0;
+    background: none; border: none; color: var(--ash);
+    cursor: pointer; font-size: 0.85rem; padding: 2px 5px;
+    transition: color 0.15s;
+  }
+  .unclaim-open-btn:hover { color: var(--charcoal); }
+
+  /* Modal open items section */
+  .open-items-section { margin-bottom: 16px; }
+  .open-items-label { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--ash); font-weight: 600; display: block; margin-bottom: 8px; }
+  .open-items-sub { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: 0.7; }
+  .open-item-field { display: flex; gap: 8px; margin-bottom: 6px; align-items: center; }
+  .open-item-field input { flex: 1; padding: 9px 12px !important; font-size: 0.9rem !important; }
+  .remove-open-item-btn { flex-shrink: 0; background: none; border: none; color: var(--ash); cursor: pointer; font-size: 1rem; padding: 4px 7px; border-radius: 5px; transition: all 0.15s; line-height: 1; }
+  .remove-open-item-btn:hover { background: var(--parchment); color: var(--charcoal); }
+  .add-open-item-btn { display: flex; align-items: center; gap: 6px; background: none; border: 1px dashed var(--smoke); border-radius: 6px; padding: 7px 12px; color: var(--ash); font-size: 0.83rem; cursor: pointer; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; width: 100%; }
+  .add-open-item-btn:hover { border-color: var(--pine); color: var(--pine); background: rgba(61,107,64,0.04); }
+
+  /* Grid open chip */
+  .grid-open-chip { display: block; border: 1px dashed #c8893a; border-radius: 4px; padding: 2px 6px; margin: 1px 0; font-size: 0.66rem; color: #8a6a3a; font-style: italic; }
+
+  /* ══ LOADING OVERLAY ══ */
+  .loading-overlay { position: fixed; inset: 0; background: #1e2e1f; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 200; transition: opacity 0.5s; }
+  .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+  .loading-tree { font-size: 3rem; animation: float 1.5s ease-in-out infinite; margin-bottom: 16px; }
+  .loading-text { color: rgba(245,238,223,0.6); font-size: 1rem; letter-spacing: 1px; }
+
+  /* ══ MODAL ══ */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(20,30,20,0.72); backdrop-filter: blur(6px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open{display:flex;}
+  .modal { background: var(--cream); border-radius: 18px; padding: 34px; max-width: 460px; width: 100%; box-shadow: 0 24px 80px rgba(0,0,0,0.5); position: relative; animation: modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1); max-height: 90vh; overflow-y: auto; }
+  @keyframes modalIn{from{transform:scale(0.85) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+  .modal-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:1.4rem;color:var(--ash);cursor:pointer;}
+  .modal-close:hover{color:var(--charcoal);}
+  .modal h3{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--forest);margin-bottom:5px;}
+  .modal .modal-sub{font-size:0.86rem;color:var(--ash);margin-bottom:22px;}
+  .modal .field-group{min-width:unset;margin-bottom:16px;}
+  .modal-family-indicator{display:flex;align-items:center;gap:10px;padding:11px 15px;border-radius:9px;margin-bottom:22px;font-weight:600;font-size:0.93rem;color:white;}
+  .modal-actions{display:flex;gap:12px;}
+  .modal-actions .confirm-btn{flex:1;padding:12px;font-size:0.98rem;}
+  .cancel-btn{padding:12px 18px;background:var(--smoke);color:var(--ash);border:none;border-radius:8px;font-family:'Source Sans 3',sans-serif;font-size:0.98rem;cursor:pointer;transition:background 0.2s;}
+  .cancel-btn:hover{background:var(--parchment);}
+
+  @media(max-width:600px){
+    .family-panel{padding:20px;}
+    .family-selector-row{flex-direction:column;}
+    .confirm-btn{width:100%;}
+    header{padding:32px 16px 22px;}
+  }
+
+  /* ══ SCREEN SCHEDULE GRID ══ */
+  .schedule-grid-section { margin-top: 40px; }
+  .schedule-grid-outer { border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); overflow: hidden; margin-bottom: 32px; }
+  .schedule-grid-week-title { font-family: 'Playfair Display', serif; font-size: 0.92rem; color: var(--cream); padding: 8px 14px; background: rgba(45,74,47,0.55); border-bottom: 1px solid rgba(245,238,223,0.1); letter-spacing: 0.3px; font-weight: 700; opacity: 0.95; }
+  .schedule-grid-wrap { overflow-x: auto; }
+  .schedule-grid-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  .schedule-grid-table thead th { background: var(--forest); color: var(--cream); padding: 8px 10px; font-size: 0.7rem; text-align: left; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .schedule-grid-table thead th.meal-header { background: var(--pine); width: 88px; }
+  .schedule-grid-table tbody td { background: var(--cream); border: 1px solid var(--parchment); padding: 6px 8px; vertical-align: top; min-width: 88px; }
+  .schedule-grid-table tbody tr:nth-child(even) td { background: #f0e9da; }
+  .schedule-grid-table tbody th { background: var(--pine); color: var(--cream); padding: 6px 10px; font-size: 0.75rem; font-weight: 600; text-align: left; white-space: nowrap; }
+  .grid-chip { display: block; border-radius: 5px; padding: 2px 7px; margin: 1px 0; font-size: 0.71rem; color: white; font-weight: 600; line-height: 1.5; }
+  .grid-chip-dish { font-weight: 400; opacity: 0.88; font-style: italic; }
+  .grid-empty { color: #c8bfb0; font-style: italic; font-size: 0.68rem; }
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-tree">🌲</div>
+  <div class="loading-text">Loading cabin schedule...</div>
+</div>
+
+<!-- Print View -->
+<div class="print-view" id="printView">
+  <div class="print-header">
+    <h1>🌲 Cabin Meals 2026 · Meal Schedule</h1>
+    <p>June 21 – July 18, 2026 · Minnesota</p>
+  </div>
+  <div class="print-legend" id="printLegend"></div>
+  <div id="printContent"></div>
+</div>
+
+<!-- Screen View -->
+<div class="screen-only">
+  <header>
+    <span class="cabin-icon">🏕️</span>
+    <h1>Cabin <span>Meals 2026</span></h1>
+    <div class="tree-divider">🌲 🌲 🌲</div>
+    <p>Minnesota · June 21 – July 18 · Meal Planner</p>
+    <a href="https://photos.google.com/share/AF1QipPnmgx3yIdzpY3brmpT2dhfEGfj3tAV_QzR59NVBO1yH6d_3_jSH9EfSlKkPyo9Dg?key=NUVnTzJsZE9ZNTZXd0pVbU1rbEQ0dm5NMi1XelRR" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:10px 22px;background:rgba(245,238,223,0.12);border:1px solid rgba(245,238,223,0.2);border-radius:30px;color:var(--cream);text-decoration:none;font-size:0.9rem;font-weight:600;letter-spacing:0.4px;transition:background 0.2s;" onmouseover="this.style.background='rgba(245,238,223,0.2)'" onmouseout="this.style.background='rgba(245,238,223,0.12)'">📸 &nbsp;Cabin Photo Album</a>
+  </header>
+
+  <div class="main-wrap">
+
+    <div class="status-bar">
+      <div class="sync-indicator">
+        <div class="sync-dot" id="syncDot"></div>
+        <span id="syncText">Connecting...</span>
+      </div>
+      <button class="print-btn" onclick="generatePDF()">🖨️ &nbsp;Download Schedule PDF</button>
+    </div>
+
+    <div class="family-panel">
+      <h2>Who are you?</h2>
+      <div class="family-selector-row">
+        <div class="field-group">
+          <label>Family Name</label>
+          <select id="familySelect" onchange="handleFamilySelect()">
+            <option value="">— Choose your family —</option>
+            <option value="McDonald">McDonald</option>
+            <option value="Petzke">Petzke</option>
+            <option value="Ryan Carlson">Ryan Carlson</option>
+            <option value="Jon Carlson">Jon Carlson</option>
+            <option value="Gardner">Gardner</option>
+            <option value="Bower">Bower</option>
+            <option value="Kennedy">Kennedy</option>
+            <option value="Barbers">Barbers</option>
+            <option value="other">Type in...</option>
+          </select>
+        </div>
+        <div class="field-group" id="customNameGroup" style="display:none;">
+          <label>Your Family Name</label>
+          <input type="text" id="customName" placeholder="e.g. Smith Family" oninput="handleCustomNameInput()">
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-title">Family Colors</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--mcdonald)"></div>McDonald</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--petzke)"></div>Petzke</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--ryan-carlson)"></div>Ryan Carlson</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--jon-carlson)"></div>Jon Carlson</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--gardner)"></div>Gardner</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--bower)"></div>Bower</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--kennedy)"></div>Kennedy</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--barbers)"></div>Barbers</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--other)"></div>Other</div>
+    </div>
+
+    <div class="date-tabs" id="dateTabs"></div>
+
+    <div class="day-card" id="dayCard"></div>
+    <div class="scroll-hint">Select any day above to view and claim meal slots</div>
+
+    <div class="schedule-grid-section" id="scheduleGridSection"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modalTitle">Add Your Meal</h3>
+    <div class="modal-sub" id="modalSub"></div>
+    <div class="modal-family-indicator" id="modalFamilyIndicator"></div>
+    <div class="field-group">
+      <label>What are you making / bringing?</label>
+      <input type="text" id="dishInput" placeholder="e.g. Burgers, blueberry pancakes...">
+    </div>
+    <div class="open-items-section">
+      <label class="open-items-label">Also need someone to bring: <span class="open-items-sub">(optional)</span></label>
+      <div id="openItemsList"></div>
+      <button type="button" class="add-open-item-btn" onclick="addOpenItemField()">＋ Add item for others to volunteer</button>
+    </div>
+    <div class="modal-actions">
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      <button class="confirm-btn" onclick="saveClaim()">Claim It! 🙌</button>
+    </div>
+  </div>
+</div>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhbOiM4EO207HpM5UO-duotSrJZ-nWFCw",
+  authDomain: "cabin-meals-ad97a.firebaseapp.com",
+  projectId: "cabin-meals-ad97a",
+  storageBucket: "cabin-meals-ad97a.firebasestorage.app",
+  messagingSenderId: "668658795616",
+  appId: "1:668658795616:web:edba788cf24350b314ef05"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ─── CONFIG ───────────────────────────────────────────────
+const DAYS = [
+  // Week 1: Jun 21–27
+  {dow:'Sunday',    date:'Jun 21'},
+  {dow:'Monday',    date:'Jun 22'},
+  {dow:'Tuesday',   date:'Jun 23'},
+  {dow:'Wednesday', date:'Jun 24'},
+  {dow:'Thursday',  date:'Jun 25'},
+  {dow:'Friday',    date:'Jun 26'},
+  {dow:'Saturday',  date:'Jun 27'},
+  // Week 2: Jun 28–Jul 4
+  {dow:'Sunday',    date:'Jun 28'},
+  {dow:'Monday',    date:'Jun 29'},
+  {dow:'Tuesday',   date:'Jun 30'},
+  {dow:'Wednesday', date:'Jul 1'},
+  {dow:'Thursday',  date:'Jul 2'},
+  {dow:'Friday',    date:'Jul 3'},
+  {dow:'Saturday',  date:'Jul 4'},
+  // Week 3: Jul 5–11
+  {dow:'Sunday',    date:'Jul 5'},
+  {dow:'Monday',    date:'Jul 6'},
+  {dow:'Tuesday',   date:'Jul 7'},
+  {dow:'Wednesday', date:'Jul 8'},
+  {dow:'Thursday',  date:'Jul 9'},
+  {dow:'Friday',    date:'Jul 10'},
+  {dow:'Saturday',  date:'Jul 11'},
+  // Week 4: Jul 12–18
+  {dow:'Sunday',    date:'Jul 12'},
+  {dow:'Monday',    date:'Jul 13'},
+  {dow:'Tuesday',   date:'Jul 14'},
+  {dow:'Wednesday', date:'Jul 15'},
+  {dow:'Thursday',  date:'Jul 16'},
+  {dow:'Friday',    date:'Jul 17'},
+  {dow:'Saturday',  date:'Jul 18'},
+];
+
+const MEALS = [
+  {key:'breakfast', label:'Breakfast', icon:'🍳'},
+  {key:'snack',     label:'Snack',     icon:'🍎'},
+  {key:'dinner',    label:'Dinner',    icon:'🍽️'},
+  {key:'dessert',   label:'Dessert',   icon:'🍰'},
+];
+
+const FAMILY_COLORS = {
+  'McDonald':     '#c0392b',
+  'Petzke':       '#2980b9',
+  'Ryan Carlson': '#16a085',
+  'Jon Carlson':  '#8e44ad',
+  'Gardner':      '#d35400',
+  'Bower':        '#27ae60',
+  'Kennedy':      '#b7860b',
+  'Barbers':      '#1a6b8a',
+};
+
+function getFamilyColor(n){ return FAMILY_COLORS[n]||'#7f8c8d'; }
+function dayKey(d){ return d.date.replace(' ',''); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ─── STATE ────────────────────────────────────────────────
+let schedule = {};
+let activeFamily = null;
+let activeDay = 0;
+let pendingClaim = null;
+let pendingOpenItems = [];
+let unsubscribe = null;
+let isSaving = false;
+
+// ─── FIRESTORE LISTENER ───────────────────────────────────
+function startListening() {
+  setSyncState('syncing', 'Connecting...');
+  const ref = doc(db, 'schedule', 'meals');
+  unsubscribe = onSnapshot(ref,
+    (snap) => {
+      if (isSaving) return;
+      schedule = snap.exists() ? (snap.data().data || {}) : {};
+      setSyncState('connected', 'Live — updates in real time');
+      hideLoading();
+      renderTabs();
+      renderDay();
+      renderGrid();
+      buildPrintView();
+    },
+    (err) => {
+      console.error(err);
+      setSyncState('error', 'Connection error — check your internet');
+      hideLoading();
+    }
+  );
+}
+
+async function persistSchedule(data) {
+  setSyncState('syncing', 'Saving...');
+  try {
+    const ref = doc(db, 'schedule', 'meals');
+    await setDoc(ref, { data });
+    setSyncState('connected', 'Saved ✓');
+    setTimeout(()=>setSyncState('connected','Live — updates in real time'), 1500);
+  } catch(e) {
+    console.error(e);
+    setSyncState('error', 'Save failed — check your internet');
+  }
+}
+
+function setSyncState(state, text) {
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncText');
+  dot.className = 'sync-dot ' + state;
+  txt.textContent = text;
+}
+
+function hideLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  overlay.classList.add('hidden');
+  setTimeout(()=>overlay.style.display='none', 500);
+}
+
+// ─── FAMILY ───────────────────────────────────────────────
+window.handleFamilySelect = function() {
+  const val = document.getElementById('familySelect').value;
+  document.getElementById('customNameGroup').style.display = val === 'other' ? 'flex' : 'none';
+  if (val && val !== 'other') {
+    activeFamily = val;
+    renderDay();
+  } else if (!val) {
+    activeFamily = null;
+  }
+};
+
+window.handleCustomNameInput = function() {
+  const name = document.getElementById('customName').value.trim();
+  activeFamily = name || null;
+  renderDay();
+};
+
+// ─── TABS ─────────────────────────────────────────────────
+function renderTabs() {
+  const container = document.getElementById('dateTabs');
+  container.innerHTML = '';
+
+  DAYS.forEach((d, i) => {
+    const dk = dayKey(d);
+    const dayData = schedule[dk] || {};
+    const claimedColors = new Set();
+    MEALS.forEach(m => {
+      (dayData[m.key]||[]).forEach(c => claimedColors.add(getFamilyColor(c.family)));
+    });
+    const dotsHtml = [...claimedColors].slice(0,5).map(c=>
+      `<div class="tab-dot" style="background:${c}"></div>`
+    ).join('');
+    const btn = document.createElement('button');
+    btn.className = 'date-tab'+(i===activeDay?' active':'');
+    btn.innerHTML = `<strong>${d.dow.slice(0,3)}</strong><br><span style="font-size:0.73rem;font-weight:300">${d.date}</span><div class="tab-dots">${dotsHtml}</div>`;
+    btn.onclick = ()=>switchDay(i);
+    container.appendChild(btn);
+  });
+}
+
+function switchDay(idx){ activeDay=idx; renderTabs(); renderDay(); }
+
+// ─── DAY CARD ─────────────────────────────────────────────
+function renderDay() {
+  const day = DAYS[activeDay];
+  const dk = dayKey(day);
+  const dayData = schedule[dk]||{};
+
+  const slotsHtml = MEALS.map(meal=>{
+    const claims = dayData[meal.key]||[];
+    const claimsHtml = claims.map((c,ci)=>{
+      const openItemsHtml = (c.openItems||[]).map((oi, oi_i)=>{
+        if (oi.claimedBy) {
+          const color = getFamilyColor(oi.claimedBy);
+          const canUnclaim = oi.claimedBy === activeFamily;
+          return `<div class="open-item-card claimed" style="border-color:${color}">
+            <div class="open-item-info">
+              <span class="open-item-name">${escHtml(oi.item)}</span>
+              <span class="open-item-claimer" style="color:${color}">✓ ${escHtml(oi.claimedBy)}</span>
+            </div>
+            ${canUnclaim ? `<button class="unclaim-open-btn" title="Unclaim" onclick="unclaimOpenItem('${dk}','${meal.key}',${ci},${oi_i})">✕</button>` : ''}
+          </div>`;
+        } else {
+          return `<div class="open-item-card">
+            <div class="open-item-info">
+              <span class="open-item-name">${escHtml(oi.item)}</span>
+              <span class="open-item-needs">🙋 Needs a volunteer</span>
+            </div>
+            ${activeFamily ? `<button class="volunteer-btn" onclick="claimOpenItem('${dk}','${meal.key}',${ci},${oi_i})">Volunteer</button>` : ''}
+          </div>`;
+        }
+      }).join('');
+      return `<div class="meal-claimed" style="background:${getFamilyColor(c.family)}">
+        <div class="claimed-family">${escHtml(c.family)}</div>
+        ${c.dish?`<div class="claimed-dish">${escHtml(c.dish)}</div>`:''}
+        <button class="remove-btn" onclick="removeClaim('${dk}','${meal.key}',${ci})">✕</button>
+      </div>${openItemsHtml}`;
+    }).join('');
+    return `<div class="meal-slot">
+      <div class="meal-slot-label"><span>${meal.icon}</span> ${meal.label}</div>
+      ${claimsHtml}
+      <button class="add-claim-btn" onclick="openModal('${dk}','${meal.key}','${meal.label}','${day.dow}, ${day.date}')">
+        <span style="font-size:1.1rem;font-weight:300">＋</span> Add a slot
+      </button>
+    </div>`;
+  }).join('');
+
+  document.getElementById('dayCard').innerHTML = `
+    <div class="day-card-header">
+      <div class="day-sub">${day.date}</div>
+      <h2>${day.dow}</h2>
+    </div>
+    <div class="meal-grid">${slotsHtml}</div>`;
+}
+
+// ─── OPEN ITEM FIELDS (modal) ──────────────────────────────
+function renderOpenItemFields() {
+  const list = document.getElementById('openItemsList');
+  if (!list) return;
+  list.innerHTML = pendingOpenItems.map((oi, i) =>
+    `<div class="open-item-field">
+      <input type="text" value="${escHtml(oi.item)}" placeholder="e.g. BBQ Beans, coleslaw..."
+        oninput="updatePendingOpenItem(${i}, this.value)">
+      <button type="button" class="remove-open-item-btn" onclick="removeOpenItemField(${i})" title="Remove">✕</button>
+    </div>`
+  ).join('');
+}
+
+window.updatePendingOpenItem = function(idx, val) {
+  if (pendingOpenItems[idx] !== undefined) pendingOpenItems[idx].item = val;
+};
+
+window.addOpenItemField = function() {
+  pendingOpenItems.push({item:''});
+  renderOpenItemFields();
+  const inputs = document.getElementById('openItemsList').querySelectorAll('input');
+  if (inputs.length) inputs[inputs.length-1].focus();
+};
+
+window.removeOpenItemField = function(idx) {
+  pendingOpenItems.splice(idx, 1);
+  renderOpenItemFields();
+};
+
+// ─── MODAL ────────────────────────────────────────────────
+window.openModal = function(dk, mealKey, mealLabel, dateLabel) {
+  if(!activeFamily){ alert('Please select your family at the top first!'); return; }
+  pendingClaim = {dk, mealKey};
+  pendingOpenItems = [];
+  document.getElementById('modalTitle').textContent = `Claim ${mealLabel}`;
+  document.getElementById('modalSub').textContent = dateLabel;
+  const ind = document.getElementById('modalFamilyIndicator');
+  ind.style.background = getFamilyColor(activeFamily);
+  ind.innerHTML = `<span style="font-size:1.2rem">👨‍👩‍👧</span> ${escHtml(activeFamily)} Family`;
+  document.getElementById('dishInput').value = '';
+  renderOpenItemFields();
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('dishInput').focus(), 100);
+};
+
+window.closeModal = function() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  pendingClaim = null;
+  pendingOpenItems = [];
+};
+
+document.getElementById('modalOverlay').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
+document.getElementById('dishInput').addEventListener('keydown',function(e){ if(e.key==='Enter') saveClaim(); });
+
+window.saveClaim = async function() {
+  if(!pendingClaim) return;
+  const dish = document.getElementById('dishInput').value.trim();
+  const openItems = pendingOpenItems
+    .filter(oi => oi.item.trim())
+    .map(oi => ({item: oi.item.trim(), claimedBy: null}));
+  const {dk, mealKey} = pendingClaim;
+  const newSchedule = JSON.parse(JSON.stringify(schedule));
+  if(!newSchedule[dk]) newSchedule[dk]={};
+  if(!newSchedule[dk][mealKey]) newSchedule[dk][mealKey]=[];
+  newSchedule[dk][mealKey].push({family:activeFamily, dish, openItems});
+  closeModal();
+  isSaving = true;
+  schedule = newSchedule;
+  renderTabs();
+  renderDay();
+  renderGrid();
+  await persistSchedule(newSchedule);
+  isSaving = false;
+};
+
+window.removeClaim = async function(dk, mealKey, idx) {
+  if(!schedule[dk]?.[mealKey]) return;
+  const claim = schedule[dk][mealKey][idx];
+  if(claim.family !== activeFamily) {
+    if(!confirm(`This was claimed by the ${claim.family} family. Remove it anyway?`)) return;
+  }
+  const newSchedule = JSON.parse(JSON.stringify(schedule));
+  newSchedule[dk][mealKey].splice(idx,1);
+  isSaving = true;
+  schedule = newSchedule;
+  renderTabs();
+  renderDay();
+  renderGrid();
+  await persistSchedule(newSchedule);
+  isSaving = false;
+};
+
+// ─── VOLUNTEER CLAIMING ───────────────────────────────────
+window.claimOpenItem = async function(dk, mealKey, claimIdx, itemIdx) {
+  if(!activeFamily){ alert('Please select your family first!'); return; }
+  const item = schedule[dk]?.[mealKey]?.[claimIdx]?.openItems?.[itemIdx];
+  if(!item) return;
+  if(item.claimedBy && item.claimedBy !== activeFamily) {
+    if(!confirm(`This is already claimed by ${item.claimedBy}. Volunteer anyway?`)) return;
+  }
+  const newSchedule = JSON.parse(JSON.stringify(schedule));
+  newSchedule[dk][mealKey][claimIdx].openItems[itemIdx].claimedBy = activeFamily;
+  isSaving = true;
+  schedule = newSchedule;
+  renderTabs();
+  renderDay();
+  renderGrid();
+  await persistSchedule(newSchedule);
+  isSaving = false;
+};
+
+window.unclaimOpenItem = async function(dk, mealKey, claimIdx, itemIdx) {
+  const newSchedule = JSON.parse(JSON.stringify(schedule));
+  if(!newSchedule[dk]?.[mealKey]?.[claimIdx]?.openItems?.[itemIdx]) return;
+  newSchedule[dk][mealKey][claimIdx].openItems[itemIdx].claimedBy = null;
+  isSaving = true;
+  schedule = newSchedule;
+  renderTabs();
+  renderDay();
+  renderGrid();
+  await persistSchedule(newSchedule);
+  isSaving = false;
+};
+
+// ─── SCHEDULE GRID ────────────────────────────────────────
+function renderGrid() {
+  const section = document.getElementById('scheduleGridSection');
+  if (!section) return;
+  const weeks = [
+    {title: 'Week 1 — Jun 21 – Jun 27', days: DAYS.slice(0,7)},
+    {title: 'Week 2 — Jun 28 – Jul 4',  days: DAYS.slice(7,14)},
+    {title: 'Week 3 — Jul 5 – Jul 11',  days: DAYS.slice(14,21)},
+    {title: 'Week 4 — Jul 12 – Jul 18', days: DAYS.slice(21)},
+  ];
+  const weeksHtml = weeks.map(week => {
+    const colHeaders = week.days.map(d =>
+      `<th><strong>${d.dow.slice(0,3)}</strong><br><span style="font-weight:300;font-size:0.68rem">${d.date}</span></th>`
+    ).join('');
+    const rows = MEALS.map(meal => {
+      const cells = week.days.map(d => {
+        const claims = schedule[dayKey(d)]?.[meal.key] || [];
+        if (!claims.length) return `<td><span class="grid-empty">—</span></td>`;
+        return `<td>${claims.map(c => {
+          const openHtml = (c.openItems||[]).map(oi =>
+            oi.claimedBy
+              ? `<div class="grid-chip" style="background:${getFamilyColor(oi.claimedBy)};opacity:0.85">${escHtml(oi.claimedBy)}<span class="grid-chip-dish"> · ${escHtml(oi.item)}</span></div>`
+              : `<div class="grid-open-chip">🙋 ${escHtml(oi.item)}</div>`
+          ).join('');
+          return `<div class="grid-chip" style="background:${getFamilyColor(c.family)}">${escHtml(c.family)}${c.dish?`<span class="grid-chip-dish"> · ${escHtml(c.dish)}</span>`:''}</div>${openHtml}`;
+        }).join('')}</td>`;
+      }).join('');
+      return `<tr><th class="meal-header">${meal.icon} ${meal.label}</th>${cells}</tr>`;
+    }).join('');
+    return `<div class="schedule-grid-week-title">${week.title}</div>
+      <div class="schedule-grid-wrap">
+        <table class="schedule-grid-table">
+          <thead><tr><th class="meal-header"></th>${colHeaders}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }).join('');
+  section.innerHTML = `<div class="schedule-grid-outer">${weeksHtml}</div>`;
+}
+
+// ─── PRINT ────────────────────────────────────────────────
+window.buildPrintView = function() {
+  document.getElementById('printLegend').innerHTML =
+    `<div class="print-legend-title">Family Colors</div>` +
+    Object.entries(FAMILY_COLORS).map(([f,c])=>
+      `<div class="print-legend-item"><div class="print-legend-swatch" style="background:${c}"></div>${escHtml(f)}</div>`
+    ).join('') +
+    `<div class="print-legend-item"><div class="print-legend-swatch" style="background:#7f8c8d"></div>Other</div>`;
+
+  const weeks = [
+    {title:'Week 1 — June 21 – June 27', days:DAYS.slice(0,7)},
+    {title:'Week 2 — June 28 – July 4',  days:DAYS.slice(7,14)},
+    {title:'Week 3 — July 5 – July 11',  days:DAYS.slice(14,21)},
+    {title:'Week 4 — July 12 – July 18', days:DAYS.slice(21)},
+  ];
+
+  document.getElementById('printContent').innerHTML = weeks.map(week=>{
+    const cols = week.days.map(d=>
+      `<th><div class="print-day-label">${d.dow.slice(0,3)}<span class="print-day-sub">${d.date}</span></div></th>`
+    ).join('');
+    const rows = MEALS.map(meal=>{
+      const cells = week.days.map(d=>{
+        const claims = schedule[dayKey(d)]?.[meal.key]||[];
+        if(!claims.length) return `<td><span class="print-empty">—</span></td>`;
+        return `<td>${claims.map(c=>{
+          const openHtml = (c.openItems||[]).map(oi=>
+            oi.claimedBy
+              ? `<div class="print-claim" style="background:${getFamilyColor(oi.claimedBy)}">${escHtml(oi.claimedBy)}<span class="print-dish"> · ${escHtml(oi.item)}</span></div>`
+              : `<div class="print-open-item">🙋 ${escHtml(oi.item)}</div>`
+          ).join('');
+          return `<div class="print-claim" style="background:${getFamilyColor(c.family)}">${escHtml(c.family)}${c.dish?`<span class="print-dish"> · ${escHtml(c.dish)}</span>`:''}</div>${openHtml}`;
+        }).join('')}</td>`;
+      }).join('');
+      return `<tr><th class="meal-col">${meal.icon} ${meal.label}</th>${cells}</tr>`;
+    }).join('');
+    return `<div class="print-week-title">${week.title}</div>
+      <table class="print-grid">
+        <thead><tr><th></th>${cols}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }).join('');
+};
+
+// ─── PDF DOWNLOAD ─────────────────────────────────────────
+window.generatePDF = function() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'letter' });
+  const pageW = doc.internal.pageSize.getWidth();
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  doc.text('Cabin Meals 2026', pageW / 2, 42, { align: 'center' });
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  doc.text('June 21 - July 18, 2026 - Minnesota', pageW / 2, 58, { align: 'center' });
+
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Families:', 40, 76);
+  doc.setFont('helvetica', 'normal');
+  const legendText = [...Object.keys(FAMILY_COLORS), 'Other'].join('  ·  ');
+  doc.text(legendText, 40, 88);
+
+  const weeks = [
+    {title: 'Week 1 — June 21 – June 27', days: DAYS.slice(0,7)},
+    {title: 'Week 2 — June 28 – July 4',  days: DAYS.slice(7,14)},
+    {title: 'Week 3 — July 5 – July 11',  days: DAYS.slice(14,21)},
+    {title: 'Week 4 — July 12 – July 18', days: DAYS.slice(21)},
+  ];
+
+  let yPos = 104;
+  weeks.forEach((week, wi) => {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text(week.title, 40, yPos);
+    yPos += 4;
+
+    const head = [['Meal', ...week.days.map(d => d.dow.slice(0,3) + '\n' + d.date)]];
+    const body = MEALS.map(meal => [
+      meal.label,
+      ...week.days.map(d => {
+        const claims = schedule[dayKey(d)]?.[meal.key] || [];
+        if (!claims.length) return '';
+        return claims.map(c => {
+          const main = c.family + (c.dish ? ' - ' + c.dish : '');
+          const open = (c.openItems||[]).map(oi =>
+            oi.claimedBy
+              ? `${oi.claimedBy} - ${oi.item}`
+              : `[Volunteer needed] ${oi.item}`
+          ).join('\n');
+          return open ? main + '\n' + open : main;
+        }).join('\n');
+      })
+    ]);
+
+    doc.autoTable({
+      head,
+      body,
+      startY: yPos,
+      margin: { left: 40, right: 40 },
+      styles: { fontSize: 7, cellPadding: 3, overflow: 'linebreak', valign: 'top' },
+      headStyles: { fillColor: [45, 74, 47], textColor: 255, fontStyle: 'bold', halign: 'center' },
+      columnStyles: { 0: { fillColor: [61, 107, 64], textColor: 255, fontStyle: 'bold', cellWidth: 52 } },
+      theme: 'grid',
+    });
+
+    yPos = doc.lastAutoTable.finalY + 28;
+    const pageH = doc.internal.pageSize.getHeight();
+    if (wi < weeks.length - 1 && yPos > pageH - 120) { doc.addPage(); yPos = 40; }
+  });
+
+  doc.save('cabin-meals-2026.pdf');
+};
+
+// ─── INIT ─────────────────────────────────────────────────
+startListening();
+
+</script>
+</body>
+</html>
