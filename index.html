@@ -245,6 +245,23 @@
   .grid-chip { display: block; border-radius: 5px; padding: 2px 7px; margin: 1px 0; font-size: 0.71rem; color: white; font-weight: 600; line-height: 1.5; }
   .grid-chip-dish { font-weight: 400; opacity: 0.88; font-style: italic; }
   .grid-empty { color: #c8bfb0; font-style: italic; font-size: 0.68rem; }
+  .schedule-grid-table tbody td { position: relative; }
+  .grid-volunteer-btn { cursor: pointer; background: none; border: 1px dashed #c8893a; font-family: 'Source Sans 3', sans-serif; text-align: left; width: 100%; transition: all 0.15s; }
+  .grid-volunteer-btn:hover { background: rgba(200,137,58,0.12); border-color: var(--amber); color: #7a5020; }
+
+  /* ══ EVENTS SECTION ══ */
+  .events-section { background: var(--forest); padding: 18px 24px; border-bottom: 2px solid rgba(245,238,223,0.1); }
+  .events-section-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--cream); font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .event-item { display: flex; align-items: flex-start; gap: 10px; background: rgba(245,238,223,0.1); border-radius: 8px; padding: 8px 12px; margin-bottom: 7px; position: relative; animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+  .event-color-bar { width: 4px; border-radius: 2px; align-self: stretch; flex-shrink: 0; min-height: 32px; }
+  .event-details { flex: 1; }
+  .event-name { font-weight: 700; font-size: 0.88rem; color: var(--cream); }
+  .event-location { font-size: 0.78rem; color: rgba(245,238,223,0.65); margin-top: 2px; }
+  .event-family { font-size: 0.72rem; color: rgba(245,238,223,0.5); margin-top: 2px; font-style: italic; }
+  .event-remove-btn { background: none; border: none; color: rgba(245,238,223,0.4); cursor: pointer; font-size: 0.85rem; padding: 2px 4px; transition: color 0.15s; flex-shrink: 0; }
+  .event-remove-btn:hover { color: rgba(245,238,223,0.9); }
+  .add-event-btn { display: flex; align-items: center; gap: 7px; background: none; border: 2px dashed rgba(245,238,223,0.2); border-radius: 8px; padding: 8px 12px; color: rgba(245,238,223,0.5); font-size: 0.85rem; cursor: pointer; width: 100%; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; }
+  .add-event-btn:hover { border-color: rgba(245,238,223,0.5); color: var(--cream); }
 </style>
 </head>
 <body>
@@ -355,6 +372,32 @@
   </div>
 </div>
 
+<!-- Event Modal -->
+<div class="modal-overlay" id="eventModalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeEventModal()">✕</button>
+    <h3 id="eventModalTitle">Add an Event</h3>
+    <div class="modal-sub" id="eventModalSub"></div>
+    <div class="modal-family-indicator" id="eventModalFamilyIndicator"></div>
+    <div class="field-group">
+      <label>Event Name</label>
+      <input type="text" id="eventNameInput" placeholder="e.g. Float Day, 4th of July Parade...">
+    </div>
+    <div class="field-group">
+      <label>Time <span style="font-weight:400;opacity:0.6">(optional)</span></label>
+      <input type="time" id="eventTimeInput" style="background-image:none;padding-right:16px;">
+    </div>
+    <div class="field-group" style="margin-bottom:22px;">
+      <label>Location <span style="font-weight:400;opacity:0.6">(optional)</span></label>
+      <input type="text" id="eventLocationInput" placeholder="e.g. Pelican Lake, Main St...">
+    </div>
+    <div class="modal-actions">
+      <button class="cancel-btn" onclick="closeEventModal()">Cancel</button>
+      <button class="confirm-btn" onclick="saveEvent()">Add Event 🎉</button>
+    </div>
+  </div>
+</div>
+
 <!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
@@ -362,7 +405,7 @@
 <!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhbOiM4EO207HpM5UO-duotSrJZ-nWFCw",
@@ -430,6 +473,23 @@ const FAMILY_COLORS = {
   'Barbers':      '#1a6b8a',
 };
 
+function formatTime12h(t) {
+  if(!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+function sortedEvents(events) {
+  return [...events].sort((a, b) => {
+    if(!a.timeRaw && !b.timeRaw) return 0;
+    if(!a.timeRaw) return 1;
+    if(!b.timeRaw) return -1;
+    return a.timeRaw.localeCompare(b.timeRaw);
+  });
+}
+
 function getFamilyColor(n){ return FAMILY_COLORS[n]||'#7f8c8d'; }
 function dayKey(d){ return d.date.replace(' ',''); }
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -440,6 +500,7 @@ let activeFamily = null;
 let activeDay = 0;
 let pendingClaim = null;
 let pendingOpenItems = [];
+let pendingEvent = null;
 let unsubscribe = null;
 let isSaving = false;
 
@@ -580,10 +641,30 @@ function renderDay() {
     </div>`;
   }).join('');
 
+  const events = sortedEvents(dayData.events || []);
+  const eventsHtml = events.map((e, ei) => `
+    <div class="event-item">
+      <div class="event-color-bar" style="background:${getFamilyColor(e.family)}"></div>
+      <div class="event-details">
+        <div class="event-name">${escHtml(e.name)}</div>
+        ${e.time ? `<div class="event-location">🕐 ${escHtml(e.time)}</div>` : ''}
+        ${e.location ? `<div class="event-location">📍 ${escHtml(e.location)}</div>` : ''}
+        <div class="event-family">${escHtml(e.family)}</div>
+      </div>
+      <button class="event-remove-btn" onclick="removeEvent('${dk}',${ei})">✕</button>
+    </div>`).join('');
+
   document.getElementById('dayCard').innerHTML = `
     <div class="day-card-header">
       <div class="day-sub">${day.date}</div>
       <h2>${day.dow}</h2>
+    </div>
+    <div class="events-section">
+      <div class="events-section-title">📅 Events</div>
+      ${eventsHtml}
+      <button class="add-event-btn" onclick="openEventModal('${dk}','${day.dow}, ${day.date}')">
+        <span style="font-size:1.1rem;font-weight:300">＋</span> Add an event
+      </button>
     </div>
     <div class="meal-grid">${slotsHtml}</div>`;
 }
@@ -680,6 +761,69 @@ window.removeClaim = async function(dk, mealKey, idx) {
   isSaving = false;
 };
 
+// ─── EVENT MODAL ──────────────────────────────────────────
+window.openEventModal = function(dk, dateLabel) {
+  if(!activeFamily){ alert('Please select your family at the top first!'); return; }
+  pendingEvent = { dk };
+  document.getElementById('eventModalTitle').textContent = 'Add an Event';
+  document.getElementById('eventModalSub').textContent = dateLabel;
+  const ind = document.getElementById('eventModalFamilyIndicator');
+  ind.style.background = getFamilyColor(activeFamily);
+  ind.innerHTML = `<span style="font-size:1.2rem">👨‍👩‍👧</span> ${escHtml(activeFamily)} Family`;
+  document.getElementById('eventNameInput').value = '';
+  document.getElementById('eventTimeInput').value = '';
+  document.getElementById('eventLocationInput').value = '';
+  document.getElementById('eventModalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('eventNameInput').focus(), 100);
+};
+
+window.closeEventModal = function() {
+  document.getElementById('eventModalOverlay').classList.remove('open');
+  pendingEvent = null;
+};
+
+document.getElementById('eventModalOverlay').addEventListener('click', function(e){ if(e.target===this) closeEventModal(); });
+document.getElementById('eventNameInput').addEventListener('keydown', function(e){ if(e.key==='Enter') saveEvent(); });
+
+window.saveEvent = async function() {
+  if(!pendingEvent) return;
+  const name = document.getElementById('eventNameInput').value.trim();
+  if(!name){ alert('Please enter an event name.'); return; }
+  const timeRaw = document.getElementById('eventTimeInput').value;
+  const time = timeRaw ? formatTime12h(timeRaw) : '';
+  const location = document.getElementById('eventLocationInput').value.trim();
+  const { dk } = pendingEvent;
+  const newSchedule = JSON.parse(JSON.stringify(schedule));
+  if(!newSchedule[dk]) newSchedule[dk] = {};
+  if(!newSchedule[dk].events) newSchedule[dk].events = [];
+  newSchedule[dk].events.push({ family: activeFamily, name, time, timeRaw, location });
+  closeEventModal();
+  isSaving = true;
+  schedule = newSchedule;
+  renderTabs();
+  renderDay();
+  renderGrid();
+  await persistSchedule(newSchedule);
+  isSaving = false;
+};
+
+window.removeEvent = async function(dk, idx) {
+  if(!schedule[dk]?.events) return;
+  const evt = schedule[dk].events[idx];
+  if(evt.family !== activeFamily) {
+    if(!confirm(`This event was added by the ${evt.family} family. Remove it anyway?`)) return;
+  }
+  const newSchedule = JSON.parse(JSON.stringify(schedule));
+  newSchedule[dk].events.splice(idx, 1);
+  isSaving = true;
+  schedule = newSchedule;
+  renderTabs();
+  renderDay();
+  renderGrid();
+  await persistSchedule(newSchedule);
+  isSaving = false;
+};
+
 // ─── VOLUNTEER CLAIMING ───────────────────────────────────
 window.claimOpenItem = async function(dk, mealKey, claimIdx, itemIdx) {
   if(!activeFamily){ alert('Please select your family first!'); return; }
@@ -726,15 +870,25 @@ function renderGrid() {
     const colHeaders = week.days.map(d =>
       `<th><strong>${d.dow.slice(0,3)}</strong><br><span style="font-weight:300;font-size:0.68rem">${d.date}</span></th>`
     ).join('');
+    const eventCells = week.days.map(d => {
+      const evts = sortedEvents(schedule[dayKey(d)]?.events || []);
+      if (!evts.length) return `<td><span class="grid-empty">—</span></td>`;
+      return `<td>${evts.map(e =>
+        `<div class="grid-chip" style="background:${getFamilyColor(e.family)}">${escHtml(e.name)}${e.time ? `<span class="grid-chip-dish"> · ${escHtml(e.time)}</span>` : ''}${e.location ? `<span class="grid-chip-dish"> · ${escHtml(e.location)}</span>` : ''}</div>`
+      ).join('')}</td>`;
+    }).join('');
+    const eventsRow = `<tr><th class="meal-header">📅 Events</th>${eventCells}</tr>`;
+
     const rows = MEALS.map(meal => {
       const cells = week.days.map(d => {
-        const claims = schedule[dayKey(d)]?.[meal.key] || [];
+        const dk = dayKey(d);
+        const claims = schedule[dk]?.[meal.key] || [];
         if (!claims.length) return `<td><span class="grid-empty">—</span></td>`;
-        return `<td>${claims.map(c => {
-          const openHtml = (c.openItems||[]).map(oi =>
+        return `<td>${claims.map((c, ci) => {
+          const openHtml = (c.openItems||[]).map((oi, oi_i) =>
             oi.claimedBy
               ? `<div class="grid-chip" style="background:${getFamilyColor(oi.claimedBy)};opacity:0.85">${escHtml(oi.claimedBy)}<span class="grid-chip-dish"> · ${escHtml(oi.item)}</span></div>`
-              : `<div class="grid-open-chip">🙋 ${escHtml(oi.item)}</div>`
+              : `<button class="grid-open-chip grid-volunteer-btn" onclick="claimOpenItem('${dk}','${meal.key}',${ci},${oi_i})">🙋 ${escHtml(oi.item)} <span style="font-weight:700;font-style:normal;opacity:0.85;text-transform:uppercase;font-size:0.62rem;letter-spacing:0.5px"> · CLAIM</span></button>`
           ).join('');
           return `<div class="grid-chip" style="background:${getFamilyColor(c.family)}">${escHtml(c.family)}${c.dish?`<span class="grid-chip-dish"> · ${escHtml(c.dish)}</span>`:''}</div>${openHtml}`;
         }).join('')}</td>`;
@@ -745,7 +899,7 @@ function renderGrid() {
       <div class="schedule-grid-wrap">
         <table class="schedule-grid-table">
           <thead><tr><th class="meal-header"></th>${colHeaders}</tr></thead>
-          <tbody>${rows}</tbody>
+          <tbody>${eventsRow}${rows}</tbody>
         </table>
       </div>`;
   }).join('');
