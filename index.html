@@ -260,8 +260,12 @@
   .event-family { font-size: 0.72rem; color: rgba(245,238,223,0.5); margin-top: 2px; font-style: italic; }
   .event-remove-btn { background: none; border: none; color: rgba(245,238,223,0.4); cursor: pointer; font-size: 0.85rem; padding: 2px 4px; transition: color 0.15s; flex-shrink: 0; }
   .event-remove-btn:hover { color: rgba(245,238,223,0.9); }
+  .event-edit-btn { background: none; border: none; color: rgba(245,238,223,0.4); cursor: pointer; font-size: 0.8rem; padding: 2px 4px; transition: color 0.15s; flex-shrink: 0; }
+  .event-edit-btn:hover { color: rgba(245,238,223,0.9); }
   .add-event-btn { display: flex; align-items: center; gap: 7px; background: none; border: 2px dashed rgba(245,238,223,0.2); border-radius: 8px; padding: 8px 12px; color: rgba(245,238,223,0.5); font-size: 0.85rem; cursor: pointer; width: 100%; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; }
   .add-event-btn:hover { border-color: rgba(245,238,223,0.5); color: var(--cream); }
+  .edit-btn { position: absolute; top: 5px; right: 28px; background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 0.78rem; transition: color 0.15s; padding: 2px 4px; }
+  .edit-btn:hover { color: white; }
 </style>
 </head>
 <body>
@@ -355,7 +359,10 @@
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h3 id="modalTitle">Add Your Meal</h3>
     <div class="modal-sub" id="modalSub"></div>
-    <div class="modal-family-indicator" id="modalFamilyIndicator"></div>
+    <div class="field-group">
+      <label>Family</label>
+      <select id="modalFamilySelect"></select>
+    </div>
     <div class="field-group">
       <label>What are you making / bringing?</label>
       <input type="text" id="dishInput" placeholder="e.g. Burgers, blueberry pancakes...">
@@ -378,7 +385,10 @@
     <button class="modal-close" onclick="closeEventModal()">✕</button>
     <h3 id="eventModalTitle">Add an Event</h3>
     <div class="modal-sub" id="eventModalSub"></div>
-    <div class="modal-family-indicator" id="eventModalFamilyIndicator"></div>
+    <div class="field-group">
+      <label>Family</label>
+      <select id="eventModalFamilySelect"></select>
+    </div>
     <div class="field-group">
       <label>Event Name</label>
       <input type="text" id="eventNameInput" placeholder="e.g. Float Day, 4th of July Parade...">
@@ -491,6 +501,15 @@ function sortedEvents(events) {
 }
 
 function getFamilyColor(n){ return FAMILY_COLORS[n]||'#7f8c8d'; }
+
+function populateFamilySelect(sel, selected) {
+  const families = Object.keys(FAMILY_COLORS);
+  sel.innerHTML = `<option value="">— Select family —</option>` +
+    families.map(f => `<option value="${escHtml(f)}"${f===selected?' selected':''}>${escHtml(f)}</option>`).join('');
+  if (selected && !FAMILY_COLORS[selected]) {
+    sel.innerHTML += `<option value="${escHtml(selected)}" selected>${escHtml(selected)}</option>`;
+  }
+}
 function dayKey(d){ return d.date.replace(' ',''); }
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
@@ -629,6 +648,7 @@ function renderDay() {
       return `<div class="meal-claimed" style="background:${getFamilyColor(c.family)}">
         <div class="claimed-family">${escHtml(c.family)}</div>
         ${c.dish?`<div class="claimed-dish">${escHtml(c.dish)}</div>`:''}
+        <button class="edit-btn" onclick="openModal('${dk}','${meal.key}','${meal.label}','${day.dow}, ${day.date}',${ci})">✏️</button>
         <button class="remove-btn" onclick="removeClaim('${dk}','${meal.key}',${ci})">✕</button>
       </div>${openItemsHtml}`;
     }).join('');
@@ -651,6 +671,7 @@ function renderDay() {
         ${e.location ? `<div class="event-location">📍 ${escHtml(e.location)}</div>` : ''}
         <div class="event-family">${escHtml(e.family)}</div>
       </div>
+      <button class="event-edit-btn" onclick="openEventModal('${dk}','${day.dow}, ${day.date}',${ei})">✏️</button>
       <button class="event-remove-btn" onclick="removeEvent('${dk}',${ei})">✕</button>
     </div>`).join('');
 
@@ -699,16 +720,25 @@ window.removeOpenItemField = function(idx) {
 };
 
 // ─── MODAL ────────────────────────────────────────────────
-window.openModal = function(dk, mealKey, mealLabel, dateLabel) {
-  if(!activeFamily){ alert('Please select your family at the top first!'); return; }
-  pendingClaim = {dk, mealKey};
+window.openModal = function(dk, mealKey, mealLabel, dateLabel, editIdx) {
+  const isEdit = editIdx !== undefined && editIdx !== null;
+  if(!isEdit && !activeFamily){ alert('Please select your family at the top first!'); return; }
+  pendingClaim = {dk, mealKey, editIdx: isEdit ? editIdx : null};
   pendingOpenItems = [];
-  document.getElementById('modalTitle').textContent = `Claim ${mealLabel}`;
+  document.getElementById('modalTitle').textContent = isEdit ? `Edit ${mealLabel}` : `Claim ${mealLabel}`;
   document.getElementById('modalSub').textContent = dateLabel;
-  const ind = document.getElementById('modalFamilyIndicator');
-  ind.style.background = getFamilyColor(activeFamily);
-  ind.innerHTML = `<span style="font-size:1.2rem">👨‍👩‍👧</span> ${escHtml(activeFamily)} Family`;
-  document.getElementById('dishInput').value = '';
+  let dish = '';
+  let family = activeFamily || '';
+  if (isEdit) {
+    const claim = schedule[dk]?.[mealKey]?.[editIdx];
+    if (claim) {
+      dish = claim.dish || '';
+      family = claim.family || '';
+      pendingOpenItems = (claim.openItems || []).map(oi => ({...oi}));
+    }
+  }
+  populateFamilySelect(document.getElementById('modalFamilySelect'), family);
+  document.getElementById('dishInput').value = dish;
   renderOpenItemFields();
   document.getElementById('modalOverlay').classList.add('open');
   setTimeout(()=>document.getElementById('dishInput').focus(), 100);
@@ -725,15 +755,21 @@ document.getElementById('dishInput').addEventListener('keydown',function(e){ if(
 
 window.saveClaim = async function() {
   if(!pendingClaim) return;
+  const family = document.getElementById('modalFamilySelect').value.trim();
+  if(!family){ alert('Please select a family.'); return; }
   const dish = document.getElementById('dishInput').value.trim();
   const openItems = pendingOpenItems
     .filter(oi => oi.item.trim())
-    .map(oi => ({item: oi.item.trim(), claimedBy: null}));
-  const {dk, mealKey} = pendingClaim;
+    .map(oi => ({item: oi.item.trim(), claimedBy: oi.claimedBy || null}));
+  const {dk, mealKey, editIdx} = pendingClaim;
   const newSchedule = JSON.parse(JSON.stringify(schedule));
   if(!newSchedule[dk]) newSchedule[dk]={};
   if(!newSchedule[dk][mealKey]) newSchedule[dk][mealKey]=[];
-  newSchedule[dk][mealKey].push({family:activeFamily, dish, openItems});
+  if(editIdx !== null) {
+    newSchedule[dk][mealKey][editIdx] = {family, dish, openItems};
+  } else {
+    newSchedule[dk][mealKey].push({family, dish, openItems});
+  }
   closeModal();
   isSaving = true;
   schedule = newSchedule;
@@ -762,17 +798,21 @@ window.removeClaim = async function(dk, mealKey, idx) {
 };
 
 // ─── EVENT MODAL ──────────────────────────────────────────
-window.openEventModal = function(dk, dateLabel) {
-  if(!activeFamily){ alert('Please select your family at the top first!'); return; }
-  pendingEvent = { dk };
-  document.getElementById('eventModalTitle').textContent = 'Add an Event';
+window.openEventModal = function(dk, dateLabel, editIdx) {
+  const isEdit = editIdx !== undefined && editIdx !== null;
+  if(!isEdit && !activeFamily){ alert('Please select your family at the top first!'); return; }
+  pendingEvent = { dk, editIdx: isEdit ? editIdx : null };
+  document.getElementById('eventModalTitle').textContent = isEdit ? 'Edit Event' : 'Add an Event';
   document.getElementById('eventModalSub').textContent = dateLabel;
-  const ind = document.getElementById('eventModalFamilyIndicator');
-  ind.style.background = getFamilyColor(activeFamily);
-  ind.innerHTML = `<span style="font-size:1.2rem">👨‍👩‍👧</span> ${escHtml(activeFamily)} Family`;
-  document.getElementById('eventNameInput').value = '';
-  document.getElementById('eventTimeInput').value = '';
-  document.getElementById('eventLocationInput').value = '';
+  let name = '', timeRaw = '', location = '', family = activeFamily || '';
+  if (isEdit) {
+    const evt = schedule[dk]?.events?.[editIdx];
+    if (evt) { name = evt.name||''; timeRaw = evt.timeRaw||''; location = evt.location||''; family = evt.family||family; }
+  }
+  populateFamilySelect(document.getElementById('eventModalFamilySelect'), family);
+  document.getElementById('eventNameInput').value = name;
+  document.getElementById('eventTimeInput').value = timeRaw;
+  document.getElementById('eventLocationInput').value = location;
   document.getElementById('eventModalOverlay').classList.add('open');
   setTimeout(()=>document.getElementById('eventNameInput').focus(), 100);
 };
@@ -787,16 +827,22 @@ document.getElementById('eventNameInput').addEventListener('keydown', function(e
 
 window.saveEvent = async function() {
   if(!pendingEvent) return;
+  const family = document.getElementById('eventModalFamilySelect').value.trim();
+  if(!family){ alert('Please select a family.'); return; }
   const name = document.getElementById('eventNameInput').value.trim();
   if(!name){ alert('Please enter an event name.'); return; }
   const timeRaw = document.getElementById('eventTimeInput').value;
   const time = timeRaw ? formatTime12h(timeRaw) : '';
   const location = document.getElementById('eventLocationInput').value.trim();
-  const { dk } = pendingEvent;
+  const { dk, editIdx } = pendingEvent;
   const newSchedule = JSON.parse(JSON.stringify(schedule));
   if(!newSchedule[dk]) newSchedule[dk] = {};
   if(!newSchedule[dk].events) newSchedule[dk].events = [];
-  newSchedule[dk].events.push({ family: activeFamily, name, time, timeRaw, location });
+  if(editIdx !== null) {
+    newSchedule[dk].events[editIdx] = { family, name, time, timeRaw, location };
+  } else {
+    newSchedule[dk].events.push({ family, name, time, timeRaw, location });
+  }
   closeEventModal();
   isSaving = true;
   schedule = newSchedule;
