@@ -235,6 +235,23 @@
   .schedule-grid-section { margin-top: 40px; }
   .schedule-grid-outer { border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); overflow: hidden; margin-bottom: 32px; }
   .schedule-grid-week-title { font-family: 'Playfair Display', serif; font-size: 0.92rem; color: var(--cream); padding: 8px 14px; background: rgba(45,74,47,0.55); border-bottom: 1px solid rgba(245,238,223,0.1); letter-spacing: 0.3px; font-weight: 700; opacity: 0.95; }
+  .grid-desktop { display: block; }
+  .grid-mobile  { display: none; }
+  @media(max-width: 640px) {
+    .grid-desktop { display: none; }
+    .grid-mobile  { display: block; }
+  }
+  /* Mobile card grid */
+  .mgrid-week-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--cream); font-weight: 700; padding: 10px 4px 6px; opacity: 0.85; }
+  .mgrid-day { background: var(--cream); border-radius: 12px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+  .mgrid-day-empty { opacity: 0.5; }
+  .mgrid-day-header { background: var(--forest); color: var(--cream); font-weight: 700; font-size: 0.9rem; padding: 9px 14px; display: flex; align-items: baseline; gap: 8px; }
+  .mgrid-day-date { font-weight: 300; font-size: 0.78rem; opacity: 0.75; }
+  .mgrid-row { display: flex; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--parchment); align-items: flex-start; }
+  .mgrid-row:last-child { border-bottom: none; }
+  .mgrid-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--ash); font-weight: 700; white-space: nowrap; padding-top: 3px; width: 72px; flex-shrink: 0; }
+  .mgrid-content { flex: 1; min-width: 0; }
+  .mgrid-empty-msg { font-size: 0.82rem; color: var(--smoke); font-style: italic; padding: 8px 12px; }
   .schedule-grid-wrap { overflow-x: auto; }
   .schedule-grid-table { width: 100%; border-collapse: collapse; min-width: 560px; }
   .schedule-grid-table thead th { background: var(--forest); color: var(--cream); padding: 8px 10px; font-size: 0.7rem; text-align: left; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -1018,7 +1035,9 @@ function renderGrid() {
     {title: 'Week 3 — Jul 5 – Jul 11',  days: DAYS.slice(14,21)},
     {title: 'Week 4 — Jul 12 – Jul 18', days: DAYS.slice(21)},
   ];
-  const weeksHtml = weeks.map(week => {
+
+  // ── Desktop table layout ──
+  const tableHtml = weeks.map(week => {
     const colHeaders = week.days.map(d =>
       `<th><strong>${d.dow.slice(0,3)}</strong><br><span style="font-weight:300;font-size:0.68rem">${d.date}</span></th>`
     ).join('');
@@ -1030,7 +1049,6 @@ function renderGrid() {
       ).join('')}</td>`;
     }).join('');
     const eventsRow = `<tr><th class="meal-header">📅 Events</th>${eventCells}</tr>`;
-
     const rows = MEALS.map(meal => {
       const cells = week.days.map(d => {
         const dk = dayKey(d);
@@ -1055,7 +1073,51 @@ function renderGrid() {
         </table>
       </div>`;
   }).join('');
-  section.innerHTML = `<div class="schedule-grid-outer">${weeksHtml}</div>`;
+
+  // ── Mobile card layout ──
+  const mobileHtml = weeks.map(week => {
+    const dayCards = week.days.map(d => {
+      const dk = dayKey(d);
+      const dayData = schedule[dk] || {};
+      const evts = sortedEvents(dayData.events || []);
+      const eventsHtml = evts.length ? `<div class="mgrid-row">
+          <div class="mgrid-label">📅 Events</div>
+          <div class="mgrid-content">${evts.map(e =>
+            `<div class="grid-chip" style="background:${getFamilyColor(e.family)}">${escHtml(e.name)}${e.time?`<span class="grid-chip-dish"> · ${escHtml(e.time)}</span>`:''}${e.location?`<span class="grid-chip-dish"> · ${escHtml(e.location)}</span>`:''}</div>`
+          ).join('')}</div>
+        </div>` : '';
+      const mealsHtml = MEALS.map(meal => {
+        const claims = dayData[meal.key] || [];
+        const content = claims.length ? claims.map((c, ci) => {
+          const openHtml = (c.openItems||[]).map((oi, oi_i) =>
+            oi.claimedBy
+              ? `<div class="grid-chip" style="background:${getFamilyColor(oi.claimedBy)};opacity:0.85">${escHtml(oi.claimedBy)}<span class="grid-chip-dish"> · ${escHtml(oi.item)}</span></div>`
+              : `<button class="grid-open-chip grid-volunteer-btn" onclick="claimOpenItem('${dk}','${meal.key}',${ci},${oi_i})">🙋 ${escHtml(oi.item)} <span style="font-weight:700;font-style:normal;opacity:0.85;text-transform:uppercase;font-size:0.62rem;letter-spacing:0.5px"> · CLAIM</span></button>`
+          ).join('');
+          return `<div class="grid-chip" style="background:${getFamilyColor(c.family)}">${escHtml(c.family)}${c.dish?`<span class="grid-chip-dish"> · ${escHtml(c.dish)}</span>`:''}</div>${openHtml}`;
+        }).join('') : `<span class="grid-empty">—</span>`;
+        return `<div class="mgrid-row">
+          <div class="mgrid-label">${meal.icon} ${meal.label}</div>
+          <div class="mgrid-content">${content}</div>
+        </div>`;
+      }).join('');
+      if (!evts.length && MEALS.every(m => !(dayData[m.key]||[]).length)) {
+        return `<div class="mgrid-day mgrid-day-empty">
+          <div class="mgrid-day-header">${d.dow.slice(0,3)} <span class="mgrid-day-date">${d.date}</span></div>
+          <div class="mgrid-empty-msg">Nothing yet</div>
+        </div>`;
+      }
+      return `<div class="mgrid-day">
+        <div class="mgrid-day-header">${d.dow.slice(0,3)} <span class="mgrid-day-date">${d.date}</span></div>
+        ${eventsHtml}${mealsHtml}
+      </div>`;
+    }).join('');
+    return `<div class="mgrid-week-title">${week.title}</div>${dayCards}`;
+  }).join('');
+
+  section.innerHTML =
+    `<div class="schedule-grid-outer grid-desktop">${tableHtml}</div>` +
+    `<div class="grid-mobile">${mobileHtml}</div>`;
 }
 
 // ─── SNACK SIGNUP ─────────────────────────────────────────
