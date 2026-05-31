@@ -17,6 +17,7 @@
     --ash: #6b5f52;
     --mcdonald: #c0392b;
     --petzke: #2980b9;
+    --jake-petzke: #e17055;
     --ryan-carlson: #16a085;
     --jon-carlson: #8e44ad;
     --gardner: #d35400;
@@ -135,11 +136,10 @@
   .day-card-header { background: var(--forest); padding: 18px 28px; }
   .day-card-header h2 { font-family: 'Playfair Display', serif; font-size: 1.55rem; color: var(--cream); font-weight: 700; }
   .day-card-header .day-sub { color: rgba(245,238,223,0.5); font-size: 0.82rem; margin-bottom: 2px; }
-  .meal-grid { display: grid; grid-template-columns: repeat(4,1fr); }
-  @media(max-width:700px){.meal-grid{grid-template-columns:1fr 1fr;}}
+  .meal-grid { display: grid; grid-template-columns: repeat(2,1fr); }
   @media(max-width:420px){.meal-grid{grid-template-columns:1fr;}}
   .meal-slot { padding: 20px; border-right: 1px solid var(--parchment); border-bottom: 1px solid var(--parchment); transition: background 0.15s; }
-  .meal-slot:nth-child(4n){border-right:none;}
+  .meal-slot:nth-child(2n){border-right:none;}
   .meal-slot:hover{background:rgba(245,238,223,0.45);}
   .meal-slot-label { display: flex; align-items: center; gap: 7px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ash); font-weight: 700; margin-bottom: 10px; }
   .meal-claimed { border-radius: 8px; padding: 9px 30px 9px 12px; margin-bottom: 7px; position: relative; animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1); }
@@ -266,6 +266,29 @@
   .add-event-btn:hover { border-color: rgba(245,238,223,0.5); color: var(--cream); }
   .edit-btn { position: absolute; top: 5px; right: 28px; background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 0.78rem; transition: color 0.15s; padding: 2px 4px; }
   .edit-btn:hover { color: white; }
+
+  /* ══ SNACK SIGNUP ══ */
+  .snack-signup-section { background: var(--cream); border-radius: 16px; padding: 24px 28px; margin: 28px 0; box-shadow: 0 8px 40px rgba(0,0,0,0.3); border-top: 4px solid #27ae60; }
+  .snack-signup-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; gap: 12px; flex-wrap: wrap; }
+  .snack-signup-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--forest); font-weight: 700; }
+  .add-snack-btn { display: flex; align-items: center; gap: 7px; padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 3px 10px rgba(39,174,96,0.3); }
+  .add-snack-btn:hover { background: #219a52; transform: translateY(-1px); }
+  .add-snack-btn.muted { background: var(--smoke); color: var(--ash); box-shadow: none; cursor: default; transform: none; }
+  .snack-no-family-hint { font-size: 0.82rem; color: var(--ash); font-style: italic; margin-top: 6px; }
+  .snack-inline-form { background: var(--parchment); border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .snack-inline-form input { flex: 1; min-width: 180px; padding: 9px 14px; border: 2px solid var(--smoke); border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; background: white; color: var(--charcoal); }
+  .snack-inline-form input:focus { outline: none; border-color: #27ae60; box-shadow: 0 0 0 3px rgba(39,174,96,0.15); }
+  .snack-confirm-btn { padding: 9px 20px; background: #27ae60; color: white; border: none; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+  .snack-confirm-btn:hover { background: #219a52; }
+  .snack-cancel-btn { padding: 9px 14px; background: var(--smoke); color: var(--ash); border: none; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+  .snack-cancel-btn:hover { background: var(--parchment); color: var(--charcoal); }
+  .snack-list { display: flex; flex-direction: column; gap: 7px; }
+  .snack-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 9px; background: white; border: 1px solid var(--parchment); animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+  .snack-family-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; color: white; white-space: nowrap; }
+  .snack-item-text { flex: 1; font-size: 0.95rem; color: var(--charcoal); }
+  .snack-remove-btn { background: none; border: none; color: var(--smoke); cursor: pointer; font-size: 0.85rem; padding: 3px 6px; border-radius: 5px; transition: all 0.15s; flex-shrink: 0; }
+  .snack-remove-btn:hover { background: var(--parchment); color: var(--charcoal); }
+  .snack-empty { color: var(--ash); font-style: italic; font-size: 0.9rem; padding: 6px 0; }
 </style>
 </head>
 <body>
@@ -315,6 +338,7 @@
             <option value="">— Choose your family —</option>
             <option value="McDonald">McDonald</option>
             <option value="Petzke">Petzke</option>
+            <option value="Jake Petzke">Jake Petzke</option>
             <option value="Ryan Carlson">Ryan Carlson</option>
             <option value="Jon Carlson">Jon Carlson</option>
             <option value="Gardner">Gardner</option>
@@ -335,6 +359,7 @@
       <div class="legend-title">Family Colors</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--mcdonald)"></div>McDonald</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--petzke)"></div>Petzke</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--jake-petzke)"></div>Jake Petzke</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--ryan-carlson)"></div>Ryan Carlson</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--jon-carlson)"></div>Jon Carlson</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--gardner)"></div>Gardner</div>
@@ -348,6 +373,22 @@
 
     <div class="day-card" id="dayCard"></div>
     <div class="scroll-hint">Select any day above to view and claim meal slots</div>
+
+    <div class="snack-signup-section" id="snackSignupSection">
+      <div class="snack-signup-header">
+        <div class="snack-signup-title">🍎 Snack Signup</div>
+        <div>
+          <button class="add-snack-btn" id="addSnackBtn" onclick="toggleSnackForm()">＋ I'm bringing a snack</button>
+          <div class="snack-no-family-hint" id="snackNoFamilyHint" style="display:none;">Select your family first</div>
+        </div>
+      </div>
+      <div class="snack-inline-form" id="snackInlineForm" style="display:none;">
+        <input type="text" id="snackItemInput" placeholder="What are you bringing? e.g. Trail mix, fruit, chips…" onkeydown="if(event.key==='Enter')confirmAddSnack()">
+        <button class="snack-confirm-btn" onclick="confirmAddSnack()">Add</button>
+        <button class="snack-cancel-btn" onclick="cancelSnackForm()">Cancel</button>
+      </div>
+      <div class="snack-list" id="snackList"></div>
+    </div>
 
     <div class="schedule-grid-section" id="scheduleGridSection"></div>
   </div>
@@ -467,14 +508,13 @@ const DAYS = [
 
 const MEALS = [
   {key:'breakfast', label:'Breakfast', icon:'🍳'},
-  {key:'snack',     label:'Snack',     icon:'🍎'},
   {key:'dinner',    label:'Dinner',    icon:'🍽️'},
-  {key:'dessert',   label:'Dessert',   icon:'🍰'},
 ];
 
 const FAMILY_COLORS = {
   'McDonald':     '#c0392b',
   'Petzke':       '#2980b9',
+  'Jake Petzke':  '#e17055',
   'Ryan Carlson': '#16a085',
   'Jon Carlson':  '#8e44ad',
   'Gardner':      '#d35400',
@@ -515,6 +555,7 @@ function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
 
 // ─── STATE ────────────────────────────────────────────────
 let schedule = {};
+let snacksList = [];
 let activeFamily = null;
 let activeDay = 0;
 let pendingClaim = null;
@@ -531,11 +572,13 @@ function startListening() {
     (snap) => {
       if (isSaving) return;
       schedule = snap.exists() ? (snap.data().data || {}) : {};
+      snacksList = snap.exists() ? (snap.data().snacks || []) : [];
       setSyncState('connected', 'Live — updates in real time');
       hideLoading();
       renderTabs();
       renderDay();
       renderGrid();
+      renderSnacks();
       buildPrintView();
     },
     (err) => {
@@ -550,13 +593,28 @@ async function persistSchedule(data) {
   setSyncState('syncing', 'Saving...');
   try {
     const ref = doc(db, 'schedule', 'meals');
-    await setDoc(ref, { data });
+    await setDoc(ref, { data, snacks: snacksList });
     setSyncState('connected', 'Saved ✓');
     setTimeout(()=>setSyncState('connected','Live — updates in real time'), 1500);
   } catch(e) {
     console.error(e);
     setSyncState('error', 'Save failed — check your internet');
   }
+}
+
+async function persistSnacks(snacks) {
+  setSyncState('syncing', 'Saving...');
+  isSaving = true;
+  try {
+    const ref = doc(db, 'schedule', 'meals');
+    await setDoc(ref, { data: schedule, snacks });
+    setSyncState('connected', 'Saved ✓');
+    setTimeout(()=>setSyncState('connected','Live — updates in real time'), 1500);
+  } catch(e) {
+    console.error(e);
+    setSyncState('error', 'Save failed — check your internet');
+  }
+  isSaving = false;
 }
 
 function setSyncState(state, text) {
@@ -579,8 +637,10 @@ window.handleFamilySelect = function() {
   if (val && val !== 'other') {
     activeFamily = val;
     renderDay();
+    renderSnacks();
   } else if (!val) {
     activeFamily = null;
+    renderSnacks();
   }
 };
 
@@ -588,6 +648,7 @@ window.handleCustomNameInput = function() {
   const name = document.getElementById('customName').value.trim();
   activeFamily = name || null;
   renderDay();
+  renderSnacks();
 };
 
 // ─── TABS ─────────────────────────────────────────────────
@@ -951,6 +1012,66 @@ function renderGrid() {
   }).join('');
   section.innerHTML = `<div class="schedule-grid-outer">${weeksHtml}</div>`;
 }
+
+// ─── SNACK SIGNUP ─────────────────────────────────────────
+function renderSnacks() {
+  const btn = document.getElementById('addSnackBtn');
+  const hint = document.getElementById('snackNoFamilyHint');
+  const list = document.getElementById('snackList');
+  if (!btn || !list) return;
+
+  if (activeFamily) {
+    btn.classList.remove('muted');
+    hint.style.display = 'none';
+  } else {
+    btn.classList.add('muted');
+  }
+
+  if (!snacksList.length) {
+    list.innerHTML = '<div class="snack-empty">No snacks added yet — be the first! 🍎</div>';
+    return;
+  }
+  list.innerHTML = snacksList.map(s => `
+    <div class="snack-item">
+      <span class="snack-family-chip" style="background:${getFamilyColor(s.family)}">${escHtml(s.family)}</span>
+      <span class="snack-item-text">${escHtml(s.item)}</span>
+      <button class="snack-remove-btn" title="Remove" onclick="removeSnack('${escHtml(s.id)}')">✕</button>
+    </div>`).join('');
+}
+
+window.toggleSnackForm = function() {
+  if (!activeFamily) {
+    const hint = document.getElementById('snackNoFamilyHint');
+    hint.style.display = 'block';
+    return;
+  }
+  const form = document.getElementById('snackInlineForm');
+  const input = document.getElementById('snackItemInput');
+  form.style.display = 'flex';
+  input.value = '';
+  input.focus();
+};
+
+window.cancelSnackForm = function() {
+  document.getElementById('snackInlineForm').style.display = 'none';
+};
+
+window.confirmAddSnack = async function() {
+  const input = document.getElementById('snackItemInput');
+  const item = input.value.trim();
+  if (!item || !activeFamily) return;
+  const newSnack = { id: Date.now().toString(), family: activeFamily, item };
+  snacksList = [...snacksList, newSnack];
+  document.getElementById('snackInlineForm').style.display = 'none';
+  renderSnacks();
+  await persistSnacks(snacksList);
+};
+
+window.removeSnack = async function(id) {
+  snacksList = snacksList.filter(s => s.id !== id);
+  renderSnacks();
+  await persistSnacks(snacksList);
+};
 
 // ─── PRINT ────────────────────────────────────────────────
 window.buildPrintView = function() {

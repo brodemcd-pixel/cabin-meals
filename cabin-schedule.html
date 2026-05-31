@@ -17,6 +17,7 @@
     --ash: #6b5f52;
     --mcdonald: #c0392b;
     --petzke: #2980b9;
+    --jake-petzke: #e17055;
     --ryan-carlson: #16a085;
     --jon-carlson: #8e44ad;
     --gardner: #d35400;
@@ -135,11 +136,10 @@
   .day-card-header { background: var(--forest); padding: 18px 28px; }
   .day-card-header h2 { font-family: 'Playfair Display', serif; font-size: 1.55rem; color: var(--cream); font-weight: 700; }
   .day-card-header .day-sub { color: rgba(245,238,223,0.5); font-size: 0.82rem; margin-bottom: 2px; }
-  .meal-grid { display: grid; grid-template-columns: repeat(4,1fr); }
-  @media(max-width:700px){.meal-grid{grid-template-columns:1fr 1fr;}}
+  .meal-grid { display: grid; grid-template-columns: repeat(2,1fr); }
   @media(max-width:420px){.meal-grid{grid-template-columns:1fr;}}
   .meal-slot { padding: 20px; border-right: 1px solid var(--parchment); border-bottom: 1px solid var(--parchment); transition: background 0.15s; }
-  .meal-slot:nth-child(4n){border-right:none;}
+  .meal-slot:nth-child(2n){border-right:none;}
   .meal-slot:hover{background:rgba(245,238,223,0.45);}
   .meal-slot-label { display: flex; align-items: center; gap: 7px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ash); font-weight: 700; margin-bottom: 10px; }
   .meal-claimed { border-radius: 8px; padding: 9px 30px 9px 12px; margin-bottom: 7px; position: relative; animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1); }
@@ -294,6 +294,7 @@
             <option value="">— Choose your family —</option>
             <option value="McDonald">McDonald</option>
             <option value="Petzke">Petzke</option>
+            <option value="Jake Petzke">Jake Petzke</option>
             <option value="Ryan Carlson">Ryan Carlson</option>
             <option value="Jon Carlson">Jon Carlson</option>
             <option value="Gardner">Gardner</option>
@@ -314,6 +315,7 @@
       <div class="legend-title">Family Colors</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--mcdonald)"></div>McDonald</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--petzke)"></div>Petzke</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--jake-petzke)"></div>Jake Petzke</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--ryan-carlson)"></div>Ryan Carlson</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--jon-carlson)"></div>Jon Carlson</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--gardner)"></div>Gardner</div>
@@ -414,14 +416,13 @@ const DAYS = [
 
 const MEALS = [
   {key:'breakfast', label:'Breakfast', icon:'🍳'},
-  {key:'snack',     label:'Snack',     icon:'🍎'},
   {key:'dinner',    label:'Dinner',    icon:'🍽️'},
-  {key:'dessert',   label:'Dessert',   icon:'🍰'},
 ];
 
 const FAMILY_COLORS = {
   'McDonald':     '#c0392b',
   'Petzke':       '#2980b9',
+  'Jake Petzke':  '#e17055',
   'Ryan Carlson': '#16a085',
   'Jon Carlson':  '#8e44ad',
   'Gardner':      '#d35400',
