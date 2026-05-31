@@ -289,6 +289,12 @@
   .snack-remove-btn { background: none; border: none; color: var(--smoke); cursor: pointer; font-size: 0.85rem; padding: 3px 6px; border-radius: 5px; transition: all 0.15s; flex-shrink: 0; }
   .snack-remove-btn:hover { background: var(--parchment); color: var(--charcoal); }
   .snack-empty { color: var(--ash); font-style: italic; font-size: 0.9rem; padding: 6px 0; }
+
+  /* ══ CALENDAR SECTION ══ */
+  .calendar-section { margin-top: 40px; margin-bottom: 20px; }
+  .calendar-section-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--cream); font-weight: 700; margin-bottom: 16px; }
+  .calendar-embed-wrap { border-radius: 14px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.35); position: relative; }
+  .calendar-embed-wrap iframe { display: block; width: 100%; min-height: 580px; }
 </style>
 </head>
 <body>
@@ -391,6 +397,13 @@
     </div>
 
     <div class="schedule-grid-section" id="scheduleGridSection"></div>
+
+    <div class="calendar-section">
+      <div class="calendar-section-title">📅 Who's at the cabin?</div>
+      <div class="calendar-embed-wrap">
+        <iframe src="https://calendar.google.com/calendar/embed?src=f6a8613cfdb5d7001a62706e8479726fd40f8a9789d5cd5b5ac4fae751883192%40group.calendar.google.com&ctz=America%2FDenver" style="border:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+      </div>
+    </div>
   </div>
 </div>
 
