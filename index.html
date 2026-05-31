@@ -290,10 +290,18 @@
   .snack-remove-btn:hover { background: var(--parchment); color: var(--charcoal); }
   .snack-empty { color: var(--ash); font-style: italic; font-size: 0.9rem; padding: 6px 0; }
 
-  /* ══ CALENDAR SECTION ══ */
-  .calendar-section { margin-top: 40px; margin-bottom: 20px; }
-  .calendar-section-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--cream); font-weight: 700; margin-bottom: 16px; }
-  .calendar-embed-wrap { border-radius: 14px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.35); position: relative; }
+  /* ══ ACCORDION ══ */
+  .accordion-block { margin-top: 28px; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.28); }
+  .accordion-header { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 18px 24px; background: var(--forest); border: none; color: var(--cream); font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; cursor: pointer; text-align: left; transition: background 0.2s; }
+  .accordion-header:hover { background: var(--pine); }
+  .accordion-header[aria-expanded="true"] { background: var(--pine); }
+  .accordion-chevron { font-size: 0.75rem; opacity: 0.7; transition: transform 0.25s ease; display: inline-block; }
+  .accordion-header[aria-expanded="true"] .accordion-chevron { transform: rotate(180deg); }
+  .accordion-body { background: transparent; }
+  .accordion-body .schedule-grid-section { margin-top: 0; }
+
+  /* ══ CALENDAR EMBED ══ */
+  .calendar-embed-wrap { overflow: hidden; }
   .calendar-embed-wrap iframe { display: block; width: 100%; min-height: 580px; }
 </style>
 </head>
@@ -396,12 +404,25 @@
       <div class="snack-list" id="snackList"></div>
     </div>
 
-    <div class="schedule-grid-section" id="scheduleGridSection"></div>
+    <div class="accordion-block">
+      <button class="accordion-header" onclick="toggleAccordion('mealSchedule')" aria-expanded="false">
+        <span>📋 Meal Schedule</span>
+        <span class="accordion-chevron">▼</span>
+      </button>
+      <div class="accordion-body" id="mealSchedule" hidden>
+        <div class="schedule-grid-section" id="scheduleGridSection"></div>
+      </div>
+    </div>
 
-    <div class="calendar-section">
-      <div class="calendar-section-title">📅 Who's at the cabin?</div>
-      <div class="calendar-embed-wrap">
-        <iframe src="https://calendar.google.com/calendar/embed?src=f6a8613cfdb5d7001a62706e8479726fd40f8a9789d5cd5b5ac4fae751883192%40group.calendar.google.com&ctz=America%2FDenver" style="border:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    <div class="accordion-block">
+      <button class="accordion-header" onclick="toggleAccordion('cabinCalendar')" aria-expanded="false">
+        <span>📅 Who's at the cabin?</span>
+        <span class="accordion-chevron">▼</span>
+      </button>
+      <div class="accordion-body" id="cabinCalendar" hidden>
+        <div class="calendar-embed-wrap">
+          <iframe src="https://calendar.google.com/calendar/embed?src=f6a8613cfdb5d7001a62706e8479726fd40f8a9789d5cd5b5ac4fae751883192%40group.calendar.google.com&ctz=America%2FDenver" style="border:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
       </div>
     </div>
   </div>
@@ -1199,6 +1220,15 @@ window.generatePDF = function() {
   });
 
   doc.save('cabin-meals-2026.pdf');
+};
+
+// ─── ACCORDION ────────────────────────────────────────────
+window.toggleAccordion = function(id) {
+  const body = document.getElementById(id);
+  const header = body.previousElementSibling;
+  const isOpen = !body.hidden;
+  body.hidden = isOpen;
+  header.setAttribute('aria-expanded', String(!isOpen));
 };
 
 // ─── INIT ─────────────────────────────────────────────────
