@@ -819,7 +819,7 @@ function renderDay() {
         ${e.location ? `<div class="event-location">📍 ${escHtml(e.location)}</div>` : ''}
         <div class="event-family">${escHtml(e.family)}</div>
       </div>
-      <a class="event-gcal-btn" href="${googleCalUrl(e.name, day.date, e.time, e.location)}" target="_blank" rel="noopener" title="Add to Google Calendar">📅</a>
+      <a class="event-gcal-btn" href="${googleCalUrl(e.name, day.date, e.timeRaw, e.location)}" target="_blank" rel="noopener" title="Add to Google Calendar">📅</a>
       <button class="event-edit-btn" onclick="openEventModal('${dk}','${day.dow}, ${day.date}',${ei})">✏️</button>
       <button class="event-remove-btn" onclick="removeEvent('${dk}',${ei})">✕</button>
     </div>`).join('');
