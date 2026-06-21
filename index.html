@@ -279,6 +279,8 @@
   .event-remove-btn:hover { color: rgba(245,238,223,0.9); }
   .event-edit-btn { background: none; border: none; color: rgba(245,238,223,0.4); cursor: pointer; font-size: 0.8rem; padding: 2px 4px; transition: color 0.15s; flex-shrink: 0; }
   .event-edit-btn:hover { color: rgba(245,238,223,0.9); }
+  .event-gcal-btn { color: rgba(245,238,223,0.4); font-size: 0.85rem; padding: 2px 4px; text-decoration: none; flex-shrink: 0; transition: color 0.15s; }
+  .event-gcal-btn:hover { color: rgba(245,238,223,0.9); }
   .add-event-btn { display: flex; align-items: center; gap: 7px; background: none; border: 2px dashed rgba(245,238,223,0.2); border-radius: 8px; padding: 8px 12px; color: rgba(245,238,223,0.5); font-size: 0.85rem; cursor: pointer; width: 100%; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; }
   .add-event-btn:hover { border-color: rgba(245,238,223,0.5); color: var(--cream); }
   .edit-btn { position: absolute; top: 5px; right: 28px; background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 0.78rem; transition: color 0.15s; padding: 2px 4px; }
@@ -615,6 +617,29 @@ function populateFamilySelect(sel, selected) {
 function dayKey(d){ return d.date.replace(' ',''); }
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+function googleCalUrl(name, date, time, location) {
+  const monthMap = {Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
+  const [mon, day] = date.split(' ');
+  const d = `2026${monthMap[mon]}${day.padStart(2,'0')}`;
+  let dates;
+  if (time) {
+    const [h, m] = time.split(':').map(Number);
+    const pad = n => String(n).padStart(2,'0');
+    const startStr = `${d}T${pad(h)}${pad(m)}00`;
+    const endH = h + 1 < 24 ? h + 1 : 23;
+    const endStr = `${d}T${pad(endH)}${pad(m)}00`;
+    dates = `${startStr}/${endStr}`;
+  } else {
+    const next = new Date(2026, parseInt(monthMap[mon])-1, parseInt(day)+1);
+    const nm = String(next.getMonth()+1).padStart(2,'0');
+    const nd = String(next.getDate()).padStart(2,'0');
+    dates = `${d}/2026${nm}${nd}`;
+  }
+  const p = new URLSearchParams({action:'TEMPLATE', text: name, dates});
+  if (location) p.set('location', location);
+  return `https://calendar.google.com/calendar/render?${p.toString()}`;
+}
+
 // ─── STATE ────────────────────────────────────────────────
 let schedule = {};
 let snacksList = [];
@@ -794,6 +819,7 @@ function renderDay() {
         ${e.location ? `<div class="event-location">📍 ${escHtml(e.location)}</div>` : ''}
         <div class="event-family">${escHtml(e.family)}</div>
       </div>
+      <a class="event-gcal-btn" href="${googleCalUrl(e.name, day.date, e.time, e.location)}" target="_blank" rel="noopener" title="Add to Google Calendar">📅</a>
       <button class="event-edit-btn" onclick="openEventModal('${dk}','${day.dow}, ${day.date}',${ei})">✏️</button>
       <button class="event-remove-btn" onclick="removeEvent('${dk}',${ei})">✕</button>
     </div>`).join('');
