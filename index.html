@@ -635,9 +635,9 @@ function googleCalUrl(name, date, time, location) {
     const nd = String(next.getDate()).padStart(2,'0');
     dates = `${d}/2026${nm}${nd}`;
   }
-  const p = new URLSearchParams({action:'TEMPLATE', text: name, dates});
-  if (location) p.set('location', location);
-  return `https://calendar.google.com/calendar/render?${p.toString()}`;
+  let url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(name)}&dates=${dates}`;
+  if (location) url += `&location=${encodeURIComponent(location)}`;
+  return url;
 }
 
 // ─── STATE ────────────────────────────────────────────────
